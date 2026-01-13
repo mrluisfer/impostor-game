@@ -1,4 +1,4 @@
-import { Drama, RefreshCw, PlusCircle, Shuffle } from 'lucide-react';
+import { Drama, RefreshCw, Shuffle } from 'lucide-react';
 import type { Player, Category } from '../types/game';
 import { PlayerCard } from './PlayerCard';
 
@@ -8,7 +8,6 @@ interface GameBoardProps {
   showRoles: boolean;
   starterPlayerIndex: number;
   onRevealImpostors: () => void;
-  onNewGame: () => void;
   onResetGame: () => void;
   onChangeWord: () => void;
 }
@@ -19,7 +18,6 @@ export function GameBoard({
   showRoles,
   starterPlayerIndex,
   onRevealImpostors,
-  onNewGame,
   onResetGame,
   onChangeWord,
 }: GameBoardProps) {
@@ -70,28 +68,16 @@ export function GameBoard({
             </button>
           </div>
         ) : (
-          <>
-            <button
-              type="button"
-              className="btn btn-primary btn-lg min-h-14 flex-1 sm:flex-initial"
-              onClick={onResetGame}
-              aria-label="Jugar otra ronda con los mismos jugadores"
-            >
-              <span className="inline-flex items-center gap-2">
-                <RefreshCw className="h-5 w-5 shrink-0" /> Otra Ronda
-              </span>
-            </button>
-            <button
-              type="button"
-              className="btn btn-secondary btn-lg min-h-14 flex-1 sm:flex-initial"
-              onClick={onNewGame}
-              aria-label="Comenzar un juego nuevo"
-            >
-              <span className="inline-flex items-center gap-2">
-                <PlusCircle className="h-5 w-5 shrink-0" /> Nuevo Juego
-              </span>
-            </button>
-          </>
+          <button
+            type="button"
+            className="btn btn-primary btn-lg min-h-14 w-full text-lg"
+            onClick={onResetGame}
+            aria-label="Jugar otra ronda"
+          >
+            <span className="inline-flex items-center gap-2">
+              <RefreshCw className="h-5 w-5 shrink-0" /> Jugar de Nuevo
+            </span>
+          </button>
         )}
       </div>
 

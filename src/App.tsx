@@ -33,7 +33,6 @@ function App() {
     skipToGame,
     revealImpostors,
     resetGame,
-    newGame,
     changeWord,
   } = useGame();
 
@@ -55,11 +54,6 @@ function App() {
       startGame();
     }
   }, [pendingGeneratedWord, startGameWithGeneratedWord, startGame]);
-
-  const handleNewGame = useCallback(() => {
-    setPendingGeneratedWord(null);
-    newGame();
-  }, [newGame]);
 
   const handleResetGame = useCallback(() => {
     setPendingGeneratedWord(null);
@@ -123,7 +117,6 @@ function App() {
               showRoles={isFinished}
               starterPlayerIndex={starterPlayerIndex}
               onRevealImpostors={revealImpostors}
-              onNewGame={handleNewGame}
               onResetGame={handleResetGame}
               onChangeWord={handleChangeWord}
             />
