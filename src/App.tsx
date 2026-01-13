@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { useGame } from './hooks/useGame';
 import { PlayerForm } from './components/PlayerForm';
 import { PlayerList } from './components/PlayerList';
@@ -97,6 +98,7 @@ function App() {
           )}
         </main>
       )}
+      <Analytics />
     </>
   );
 }
