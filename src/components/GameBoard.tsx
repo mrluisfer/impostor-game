@@ -1,6 +1,6 @@
-import { Drama, RefreshCw, PlusCircle } from 'lucide-react';
-import type { Player, Category } from '../types/game';
-import { PlayerCard } from './PlayerCard';
+import { Drama, RefreshCw, PlusCircle } from "lucide-react";
+import type { Player, Category } from "../types/game";
+import { PlayerCard } from "./PlayerCard";
 
 interface GameBoardProps {
   players: Player[];
@@ -23,27 +23,19 @@ export function GameBoard({
     <div className="space-y-6 pb-6">
       {/* Categories horizontal scroll - mobile optimized */}
       <div className="-mx-4 sm:mx-0">
-        <div 
+        <div
           className="flex gap-2 px-4 sm:px-0 sm:justify-center overflow-x-auto overscroll-x-contain touch-pan-x scrollbar-none pb-2"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {categories.map((category) => (
-            <span 
-              key={category.id} 
+            <span
+              key={category.id}
               className="badge badge-primary badge-lg gap-2 py-3 px-4 shrink-0"
             >
               <span aria-hidden="true">{category.emoji}</span> {category.name}
             </span>
           ))}
         </div>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" role="list" aria-label="Tarjetas de jugadores">
-        {players.map((player) => (
-          <div key={player.id} role="listitem">
-            <PlayerCard player={player} showRole={showRoles} />
-          </div>
-        ))}
       </div>
 
       <div className="flex flex-col sm:flex-row justify-center gap-3 pt-4">
@@ -82,6 +74,18 @@ export function GameBoard({
             </button>
           </>
         )}
+      </div>
+
+      <div
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+        role="list"
+        aria-label="Tarjetas de jugadores"
+      >
+        {players.map((player) => (
+          <div key={player.id} role="listitem">
+            <PlayerCard player={player} showRole={showRoles} />
+          </div>
+        ))}
       </div>
     </div>
   );
