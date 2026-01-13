@@ -1,4 +1,4 @@
-import { Drama, RefreshCw, PlusCircle } from 'lucide-react';
+import { Drama, RefreshCw, PlusCircle, Shuffle } from 'lucide-react';
 import type { Player, Category } from '../types/game';
 import { PlayerCard } from './PlayerCard';
 
@@ -9,6 +9,7 @@ interface GameBoardProps {
   onRevealImpostors: () => void;
   onNewGame: () => void;
   onResetGame: () => void;
+  onChangeWord: () => void;
 }
 
 export function GameBoard({
@@ -18,6 +19,7 @@ export function GameBoard({
   onRevealImpostors,
   onNewGame,
   onResetGame,
+  onChangeWord,
 }: GameBoardProps) {
   return (
     <div className="space-y-6 pb-6">
@@ -38,18 +40,30 @@ export function GameBoard({
         </div>
       </div>
 
-      <div className="flex flex-col justify-center gap-3 pt-4 sm:flex-row">
+      <div className="flex flex-col gap-3 pt-4 sm:flex-row sm:justify-between">
         {!showRoles ? (
-          <button
-            type="button"
-            className="btn btn-warning btn-lg min-h-14 w-full text-lg sm:w-auto"
-            onClick={onRevealImpostors}
-            aria-label="Revelar quiénes son los impostores"
-          >
-            <span className="inline-flex items-center gap-2">
-              <Drama className="h-5 w-5 shrink-0" /> Revelar Impostores
-            </span>
-          </button>
+          <div className="flex w-full flex-col gap-3 sm:flex-row sm:justify-between">
+            <button
+              type="button"
+              className="btn btn-ghost bg-base-200 btn-lg min-h-14 text-lg"
+              onClick={onChangeWord}
+              aria-label="Cambiar palabra manteniendo roles"
+            >
+              <span className="inline-flex items-center gap-2">
+                <Shuffle className="h-5 w-5 shrink-0" /> Cambiar Palabra
+              </span>
+            </button>
+            <button
+              type="button"
+              className="btn btn-warning btn-lg min-h-14 text-lg"
+              onClick={onRevealImpostors}
+              aria-label="Revelar quiénes son los impostores"
+            >
+              <span className="inline-flex items-center gap-2">
+                <Drama className="h-5 w-5 shrink-0" /> Revelar Impostores
+              </span>
+            </button>
+          </div>
         ) : (
           <>
             <button
@@ -81,8 +95,13 @@ export function GameBoard({
         role="list"
         aria-label="Tarjetas de jugadores"
       >
-        {players.map((player) => (
-          <div key={player.id} role="listitem">
+        {players.map((player, index) => (
+          <div
+            key={player.id}
+            role="listitem"
+            className="animate-stagger"
+            style={{ '--stagger-delay': `${index * 0.08}s` } as React.CSSProperties}
+          >
             <PlayerCard player={player} showRole={showRoles} />
           </div>
         ))}

@@ -106,15 +106,16 @@ export function CategorySelector({
             aria-label="Categorías disponibles"
           >
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
-              {filteredCategories.map((category) => {
+              {filteredCategories.map((category, index) => {
                 const isSelected = selectedCategories.some((c) => c.id === category.id);
                 return (
                   <button
                     key={category.id}
                     type="button"
-                    className={`btn relative h-auto min-h-14 flex-col gap-1 px-2 py-2 ${
+                    className={`btn animate-stagger relative h-auto min-h-14 flex-col gap-1 px-2 py-2 transition-transform active:scale-95 ${
                       isSelected ? 'btn-primary' : 'btn-ghost bg-base-300'
                     }`}
+                    style={{ '--stagger-delay': `${index * 0.03}s` } as React.CSSProperties}
                     onClick={() => onSelectCategory(category)}
                     disabled={disabled}
                     aria-pressed={isSelected}

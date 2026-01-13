@@ -64,7 +64,7 @@ export function PlayerReveal({
         ></progress>
       </div>
 
-      <div className="card bg-base-200">
+      <div className="card animate-scale-in bg-base-200">
         <div className="card-body items-center p-5 text-center">
           <div className="avatar placeholder mb-2">
             <div className="bg-primary text-primary-content flex h-16 w-16 items-center justify-center rounded-full">
@@ -80,7 +80,7 @@ export function PlayerReveal({
               </p>
               <button
                 type="button"
-                className="btn btn-primary btn-lg min-h-14 w-full text-lg"
+                className="btn btn-primary btn-lg animate-glow min-h-14 w-full text-lg"
                 onClick={handleReveal}
               >
                 <span className="inline-flex items-center gap-2">
@@ -90,11 +90,11 @@ export function PlayerReveal({
               </button>
             </div>
           ) : (
-            <div className="w-full space-y-4">
+            <div className="animate-fade-in w-full space-y-4">
               <p className="text-base-content/70 text-sm">
                 {player.isImpostor ? 'Tu pista es:' : 'Tu palabra es:'}
               </p>
-              <div className="bg-base-300 text-base-content rounded-lg p-4 text-2xl font-bold">
+              <div className="animate-reveal bg-base-300 text-base-content rounded-lg p-4 text-2xl font-bold">
                 {player.assignedWord}
               </div>
               <p className="text-base-content/60 text-sm">

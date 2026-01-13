@@ -88,14 +88,14 @@ export function PlayerCard({ player, showRole = false }: PlayerCardProps) {
               <span>Toca para ver</span>
             </div>
           ) : (
-            <div className="space-y-2 text-center">
+            <div className="animate-fade-in space-y-2 text-center">
               <p
                 className={`text-sm ${isIndividuallyEliminated ? 'text-error-content/70' : 'text-base-content/70'}`}
               >
                 {player.isImpostor ? 'Pista:' : 'Palabra:'}
               </p>
               <p
-                className={`text-2xl font-bold ${
+                className={`animate-reveal text-2xl font-bold ${
                   isIndividuallyEliminated
                     ? 'text-error-content line-through'
                     : player.isImpostor

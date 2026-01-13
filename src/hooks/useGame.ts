@@ -203,6 +203,35 @@ export function useGame() {
     }));
   }, []);
 
+  // Cambiar palabra manteniendo los roles de impostor
+  const changeWord = useCallback(() => {
+    setState((prev) => {
+      if (prev.selectedCategories.length === 0) return prev;
+
+      // Seleccionar una nueva categoría y palabra aleatoria
+      const category =
+        prev.selectedCategories[Math.floor(Math.random() * prev.selectedCategories.length)];
+      const wordWithClues = category.words[Math.floor(Math.random() * category.words.length)];
+      const word = wordWithClues.word;
+      const clue = wordWithClues.clues[Math.floor(Math.random() * wordWithClues.clues.length)];
+
+      // Mantener los roles pero actualizar las palabras asignadas
+      const updatedPlayers = prev.players.map((player) => ({
+        ...player,
+        assignedWord: player.isImpostor ? clue : word,
+      }));
+
+      return {
+        ...prev,
+        players: updatedPlayers,
+        currentWord: word,
+        currentClue: clue,
+        phase: 'revealing',
+        currentRevealIndex: 0,
+      };
+    });
+  }, []);
+
   const resetGame = useCallback(() => {
     setState((prev) => ({
       ...initialState,
@@ -254,5 +283,6 @@ export function useGame() {
     revealImpostors,
     resetGame,
     newGame,
+    changeWord,
   };
 }

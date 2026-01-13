@@ -28,6 +28,7 @@ function App() {
     revealImpostors,
     resetGame,
     newGame,
+    changeWord,
   } = useGame();
 
   const isSetup = phase === 'setup';
@@ -91,6 +92,7 @@ function App() {
               onRevealImpostors={revealImpostors}
               onNewGame={newGame}
               onResetGame={resetGame}
+              onChangeWord={changeWord}
             />
           )}
         </main>
