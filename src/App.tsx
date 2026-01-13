@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import { useGame } from './hooks/useGame';
 import { PlayerForm } from './components/PlayerForm';
@@ -7,8 +7,11 @@ import { CategorySelector } from './components/CategorySelector';
 import { GameConfig } from './components/GameConfig';
 import { GameBoard } from './components/GameBoard';
 import { PlayerReveal } from './components/PlayerReveal';
+import CategoryInput, { type GeneratedWord } from './components/CategoryInput';
 
 function App() {
+  const [pendingGeneratedWord, setPendingGeneratedWord] = useState<GeneratedWord | null>(null);
+
   const {
     players,
     selectedCategories,
@@ -17,12 +20,14 @@ function App() {
     currentRevealIndex,
     categories,
     canStartGame,
+    starterPlayerIndex,
     addPlayer,
     removePlayer,
     selectCategory,
     toggleAllCategories,
     setImpostorCount,
     startGame,
+    startGameWithGeneratedWord,
     previousReveal,
     nextReveal,
     skipToGame,
@@ -41,6 +46,30 @@ function App() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, [phase]);
+
+  const handleStartGame = useCallback(() => {
+    if (pendingGeneratedWord) {
+      startGameWithGeneratedWord(pendingGeneratedWord);
+      setPendingGeneratedWord(null);
+    } else {
+      startGame();
+    }
+  }, [pendingGeneratedWord, startGameWithGeneratedWord, startGame]);
+
+  const handleNewGame = useCallback(() => {
+    setPendingGeneratedWord(null);
+    newGame();
+  }, [newGame]);
+
+  const handleResetGame = useCallback(() => {
+    setPendingGeneratedWord(null);
+    resetGame();
+  }, [resetGame]);
+
+  const handleChangeWord = useCallback(() => {
+    setPendingGeneratedWord(null);
+    changeWord();
+  }, [changeWord]);
 
   return (
     <>
@@ -73,27 +102,30 @@ function App() {
                   onSelectCategory={selectCategory}
                   onToggleAll={toggleAllCategories}
                 />
+                <CategoryInput onWordGenerated={setPendingGeneratedWord} />
                 <GameConfig
                   playerCount={players.length}
                   impostorCount={impostorCount}
                   selectedCategoriesCount={selectedCategories.length}
-                  canStart={canStartGame}
-                  onStartGame={startGame}
+                  canStart={canStartGame || (players.length >= 3 && pendingGeneratedWord !== null)}
+                  onStartGame={handleStartGame}
                   onImpostorCountChange={setImpostorCount}
+                  hasGeneratedWord={pendingGeneratedWord !== null}
                 />
               </section>
             </div>
           )}
 
-          {(isPlaying || isFinished) && selectedCategories.length > 0 && (
+          {(isPlaying || isFinished) && (
             <GameBoard
               players={players}
               categories={selectedCategories}
               showRoles={isFinished}
+              starterPlayerIndex={starterPlayerIndex}
               onRevealImpostors={revealImpostors}
-              onNewGame={newGame}
-              onResetGame={resetGame}
-              onChangeWord={changeWord}
+              onNewGame={handleNewGame}
+              onResetGame={handleResetGame}
+              onChangeWord={handleChangeWord}
             />
           )}
         </main>

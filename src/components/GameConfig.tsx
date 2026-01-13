@@ -7,6 +7,7 @@ interface GameConfigProps {
   canStart: boolean;
   onStartGame: () => void;
   onImpostorCountChange: (count: number) => void;
+  hasGeneratedWord?: boolean;
 }
 
 export function GameConfig({
@@ -16,15 +17,16 @@ export function GameConfig({
   canStart,
   onStartGame,
   onImpostorCountChange,
+  hasGeneratedWord = false,
 }: GameConfigProps) {
   const minPlayers = 3;
   const needMorePlayers = playerCount < minPlayers;
-  const needCategories = selectedCategoriesCount === 0;
+  const needCategories = selectedCategoriesCount === 0 && !hasGeneratedWord;
   const maxImpostors = Math.max(1, playerCount - 1);
 
   const issues: string[] = [];
   if (needMorePlayers) issues.push(`Faltan ${minPlayers - playerCount} jugadores`);
-  if (needCategories) issues.push('Selecciona al menos 1 categoría');
+  if (needCategories) issues.push('Selecciona categoría o genera con IA');
 
   return (
     <div className={`card ${canStart ? 'bg-primary/10 ring-primary ring-2' : 'bg-base-200'}`}>

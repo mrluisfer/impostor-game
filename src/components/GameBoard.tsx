@@ -6,6 +6,7 @@ interface GameBoardProps {
   players: Player[];
   categories: Category[];
   showRoles: boolean;
+  starterPlayerIndex: number;
   onRevealImpostors: () => void;
   onNewGame: () => void;
   onResetGame: () => void;
@@ -16,29 +17,33 @@ export function GameBoard({
   players,
   categories,
   showRoles,
+  starterPlayerIndex,
   onRevealImpostors,
   onNewGame,
   onResetGame,
   onChangeWord,
 }: GameBoardProps) {
+  const starterPlayer = players[starterPlayerIndex];
   return (
     <div className="space-y-6 pb-6">
       {/* Categories horizontal scroll - mobile optimized */}
-      <div className="-mx-4 sm:mx-0">
-        <div
-          className="scrollbar-none flex touch-pan-x gap-2 overflow-x-auto overscroll-x-contain px-4 pb-2 sm:justify-center sm:px-0"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
-          {categories.map((category) => (
-            <span
-              key={category.id}
-              className="badge badge-primary badge-lg shrink-0 gap-2 px-4 py-3"
-            >
-              <span aria-hidden="true">{category.emoji}</span> {category.name}
-            </span>
-          ))}
+      {categories.length > 0 && (
+        <div className="-mx-4 sm:mx-0">
+          <div
+            className="scrollbar-none flex touch-pan-x gap-2 overflow-x-auto overscroll-x-contain px-4 pb-2 sm:justify-center sm:px-0"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {categories.map((category) => (
+              <span
+                key={category.id}
+                className="badge badge-primary badge-lg shrink-0 gap-2 px-4 py-3"
+              >
+                <span aria-hidden="true">{category.emoji}</span> {category.name}
+              </span>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="flex flex-col gap-3 pt-4 sm:flex-row sm:justify-between">
         {!showRoles ? (
@@ -89,6 +94,28 @@ export function GameBoard({
           </>
         )}
       </div>
+
+      {/* Indicador de quién inicia */}
+      {!showRoles && starterPlayer && (
+        <div className="alert alert-info">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            className="h-6 w-6 shrink-0 stroke-current"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span className="text-base">
+            <strong>{starterPlayer.name}</strong> inicia dando la primera pista
+          </span>
+        </div>
+      )}
 
       <div
         className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"

@@ -27,4 +27,6 @@ export interface GameState {
   phase: GamePhase;
   impostorCount: number;
   currentRevealIndex: number;
+  generatedWord: WordWithClues | null;
+  starterPlayerIndex: number;
 }

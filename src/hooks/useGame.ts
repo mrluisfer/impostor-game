@@ -43,6 +43,8 @@ const initialState: GameState = {
   phase: 'setup',
   impostorCount: 1,
   currentRevealIndex: 0,
+  generatedWord: null,
+  starterPlayerIndex: 0,
 };
 
 export function useGame() {
@@ -122,6 +124,45 @@ export function useGame() {
     }));
   }, []);
 
+  // Iniciar juego con palabra generada por IA
+  const startGameWithGeneratedWord = useCallback((wordData: { word: string; clues: string[] }) => {
+    setState((prev) => {
+      if (prev.players.length < 3) {
+        return prev;
+      }
+
+      const word = wordData.word;
+      const clue = wordData.clues[Math.floor(Math.random() * wordData.clues.length)];
+
+      // Shuffle players and assign impostors
+      const shuffledPlayers = shuffleArray(prev.players);
+      const impostorCount = Math.min(prev.impostorCount, prev.players.length - 1);
+
+      const assignedPlayers = shuffledPlayers.map((player, index) => ({
+        ...player,
+        isImpostor: index < impostorCount,
+        assignedWord: index < impostorCount ? clue : word,
+      }));
+
+      // Re-shuffle to randomize display order
+      const finalPlayers = shuffleArray(assignedPlayers);
+
+      // Seleccionar aleatoriamente quién inicia el juego
+      const starterPlayerIndex = Math.floor(Math.random() * finalPlayers.length);
+
+      return {
+        ...prev,
+        players: finalPlayers,
+        currentWord: word,
+        currentClue: clue,
+        phase: 'revealing',
+        currentRevealIndex: 0,
+        generatedWord: { word: wordData.word, clues: wordData.clues },
+        starterPlayerIndex,
+      };
+    });
+  }, []);
+
   const startGame = useCallback(() => {
     setState((prev) => {
       if (prev.players.length < 3 || prev.selectedCategories.length === 0) {
@@ -131,7 +172,7 @@ export function useGame() {
       // Seleccionar una categoría aleatoria de las seleccionadas
       const category =
         prev.selectedCategories[Math.floor(Math.random() * prev.selectedCategories.length)];
-      
+
       // Seleccionar una palabra aleatoria con sus pistas
       const wordWithClues = category.words[Math.floor(Math.random() * category.words.length)];
       const word = wordWithClues.word;
@@ -150,6 +191,9 @@ export function useGame() {
       // Re-shuffle to randomize display order
       const finalPlayers = shuffleArray(assignedPlayers);
 
+      // Seleccionar aleatoriamente quién inicia el juego
+      const starterPlayerIndex = Math.floor(Math.random() * finalPlayers.length);
+
       return {
         ...prev,
         players: finalPlayers,
@@ -157,6 +201,7 @@ export function useGame() {
         currentClue: clue,
         phase: 'revealing',
         currentRevealIndex: 0,
+        starterPlayerIndex,
       };
     });
   }, []);
@@ -206,6 +251,18 @@ export function useGame() {
   // Cambiar palabra manteniendo los roles de impostor
   const changeWord = useCallback(() => {
     setState((prev) => {
+      // Si es palabra de IA, no se puede cambiar (se debe volver a setup)
+      if (prev.generatedWord !== null) {
+        return {
+          ...prev,
+          phase: 'setup',
+          generatedWord: null,
+          currentWord: '',
+          currentClue: '',
+          players: prev.players.map((p) => ({ ...p, isImpostor: false, assignedWord: '' })),
+        };
+      }
+
       if (prev.selectedCategories.length === 0) return prev;
 
       // Seleccionar una nueva categoría y palabra aleatoria
@@ -233,16 +290,34 @@ export function useGame() {
   }, []);
 
   const resetGame = useCallback(() => {
-    setState((prev) => ({
-      ...initialState,
-      players: loadPlayersFromStorage().map((p) => ({
-        ...p,
-        isImpostor: false,
-        assignedWord: '',
-      })),
-      selectedCategories: prev.selectedCategories,
-      impostorCount: prev.impostorCount,
-    }));
+    setState((prev) => {
+      // Si era palabra de IA, volver a setup para generar nueva
+      if (prev.generatedWord !== null) {
+        return {
+          ...initialState,
+          players: loadPlayersFromStorage().map((p) => ({
+            ...p,
+            isImpostor: false,
+            assignedWord: '',
+          })),
+          selectedCategories: prev.selectedCategories,
+          impostorCount: prev.impostorCount,
+          generatedWord: null,
+        };
+      }
+
+      return {
+        ...initialState,
+        players: loadPlayersFromStorage().map((p) => ({
+          ...p,
+          isImpostor: false,
+          assignedWord: '',
+        })),
+        selectedCategories: prev.selectedCategories,
+        impostorCount: prev.impostorCount,
+        generatedWord: null,
+      };
+    });
   }, []);
 
   const newGame = useCallback(() => {
@@ -251,6 +326,7 @@ export function useGame() {
       players: loadPlayersFromStorage(),
       selectedCategories: [],
       impostorCount: 1,
+      generatedWord: null,
     });
   }, []);
 
@@ -266,6 +342,8 @@ export function useGame() {
     impostorCount: state.impostorCount,
     currentRevealIndex: state.currentRevealIndex,
     categories,
+    generatedWord: state.generatedWord,
+    starterPlayerIndex: state.starterPlayerIndex,
 
     // Computed
     canStartGame,
@@ -277,6 +355,7 @@ export function useGame() {
     toggleAllCategories,
     setImpostorCount,
     startGame,
+    startGameWithGeneratedWord,
     previousReveal,
     nextReveal,
     skipToGame,
