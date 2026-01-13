@@ -32,6 +32,8 @@ Responde con este formato JSON exacto:
 Reglas:
 - La palabra debe ser específica y conocida dentro de esa categoría
 - Las pistas deben ayudar a describir la palabra sin revelarla directamente
+- Las pistas y palabra deben estar en el mismo idioma que la categoría proporcionada
+- Las pistas y palabra deben estar relacionadas con la categoría y contexto similar
 - Las pistas deben ser cortas (máximo 6-8 palabras cada una)
 - Responde SOLO con el JSON, nada más`;
 
