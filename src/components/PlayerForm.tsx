@@ -36,7 +36,7 @@ export function PlayerForm({ onAddPlayer, disabled = false }: PlayerFormProps) {
         <input
           ref={inputRef}
           type="text"
-          className={`input input-bordered input-lg join-item flex-1 bg-base-200 ${error ? 'input-error' : ''}`}
+          className={`input input-bordered input-lg join-item bg-base-200 flex-1 ${error ? 'input-error' : ''}`}
           value={name}
           onChange={(e) => {
             setName(e.target.value);
@@ -57,7 +57,7 @@ export function PlayerForm({ onAddPlayer, disabled = false }: PlayerFormProps) {
         </button>
       </div>
       {error && (
-        <p className="text-error text-sm mt-2" role="alert">
+        <p className="text-error mt-2 text-sm" role="alert">
           {error}
         </p>
       )}

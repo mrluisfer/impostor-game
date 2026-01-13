@@ -1,6 +1,6 @@
-import { Drama, RefreshCw, PlusCircle } from "lucide-react";
-import type { Player, Category } from "../types/game";
-import { PlayerCard } from "./PlayerCard";
+import { Drama, RefreshCw, PlusCircle } from 'lucide-react';
+import type { Player, Category } from '../types/game';
+import { PlayerCard } from './PlayerCard';
 
 interface GameBoardProps {
   players: Player[];
@@ -24,13 +24,13 @@ export function GameBoard({
       {/* Categories horizontal scroll - mobile optimized */}
       <div className="-mx-4 sm:mx-0">
         <div
-          className="flex gap-2 px-4 sm:px-0 sm:justify-center overflow-x-auto overscroll-x-contain touch-pan-x scrollbar-none pb-2"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          className="scrollbar-none flex touch-pan-x gap-2 overflow-x-auto overscroll-x-contain px-4 pb-2 sm:justify-center sm:px-0"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {categories.map((category) => (
             <span
               key={category.id}
-              className="badge badge-primary badge-lg gap-2 py-3 px-4 shrink-0"
+              className="badge badge-primary badge-lg shrink-0 gap-2 px-4 py-3"
             >
               <span aria-hidden="true">{category.emoji}</span> {category.name}
             </span>
@@ -38,38 +38,38 @@ export function GameBoard({
         </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row justify-center gap-3 pt-4">
+      <div className="flex flex-col justify-center gap-3 pt-4 sm:flex-row">
         {!showRoles ? (
           <button
             type="button"
-            className="btn btn-warning btn-lg w-full sm:w-auto min-h-14 text-lg"
+            className="btn btn-warning btn-lg min-h-14 w-full text-lg sm:w-auto"
             onClick={onRevealImpostors}
             aria-label="Revelar quiénes son los impostores"
           >
             <span className="inline-flex items-center gap-2">
-              <Drama className="w-5 h-5 shrink-0" /> Revelar Impostores
+              <Drama className="h-5 w-5 shrink-0" /> Revelar Impostores
             </span>
           </button>
         ) : (
           <>
             <button
               type="button"
-              className="btn btn-primary btn-lg flex-1 sm:flex-initial min-h-14"
+              className="btn btn-primary btn-lg min-h-14 flex-1 sm:flex-initial"
               onClick={onResetGame}
               aria-label="Jugar otra ronda con los mismos jugadores"
             >
               <span className="inline-flex items-center gap-2">
-                <RefreshCw className="w-5 h-5 shrink-0" /> Otra Ronda
+                <RefreshCw className="h-5 w-5 shrink-0" /> Otra Ronda
               </span>
             </button>
             <button
               type="button"
-              className="btn btn-secondary btn-lg flex-1 sm:flex-initial min-h-14"
+              className="btn btn-secondary btn-lg min-h-14 flex-1 sm:flex-initial"
               onClick={onNewGame}
               aria-label="Comenzar un juego nuevo"
             >
               <span className="inline-flex items-center gap-2">
-                <PlusCircle className="w-5 h-5 shrink-0" /> Nuevo Juego
+                <PlusCircle className="h-5 w-5 shrink-0" /> Nuevo Juego
               </span>
             </button>
           </>
@@ -77,7 +77,7 @@ export function GameBoard({
       </div>
 
       <div
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+        className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
         role="list"
         aria-label="Tarjetas de jugadores"
       >

@@ -1,6 +1,7 @@
 # 🕵️ Impostor Game
 
-A real-time multiplayer word guessing game inspired by social deduction mechanics. Players receive secret words while impostors get subtle clues — can you identify who's faking it?
+A real-time multiplayer word guessing game inspired by social deduction mechanics. Players receive
+secret words while impostors get subtle clues — can you identify who's faking it?
 
 [![React](https://img.shields.io/badge/React-19.2-61DAFB?logo=react&logoColor=white)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -107,10 +108,10 @@ This app implements comprehensive mobile CSS best practices:
 The app uses a custom daisyUI theme (`impostor`) with dark mode as default:
 
 ```css
-@plugin "daisyui/theme" {
-  name: "impostor";
+@plugin 'daisyui/theme' {
+  name: 'impostor';
   default: true;
-  color-scheme: "dark";
+  color-scheme: 'dark';
   /* Custom OKLCH color palette */
 }
 ```
@@ -119,7 +120,8 @@ The app uses a custom daisyUI theme (`impostor`) with dark mode as default:
 
 ### State Management
 
-Game state is managed through a custom `useGame` hook using React's `useState` and `useCallback`. This approach provides:
+Game state is managed through a custom `useGame` hook using React's `useState` and `useCallback`.
+This approach provides:
 
 - Centralized state logic without external dependencies
 - Predictable state updates with immutable patterns
@@ -127,11 +129,14 @@ Game state is managed through a custom `useGame` hook using React's `useState` a
 
 ### Styling Strategy
 
-Tailwind CSS v4 with CSS-first configuration eliminates the need for `tailwind.config.js`. Theme variables and plugins are declared directly in `index.css` using the new `@theme` and `@plugin` directives.
+Tailwind CSS v4 with CSS-first configuration eliminates the need for `tailwind.config.js`. Theme
+variables and plugins are declared directly in `index.css` using the new `@theme` and `@plugin`
+directives.
 
 ### Build Tooling
 
-Using [Rolldown-Vite](https://vite.dev/guide/rolldown) — Vite's experimental Rust-based bundler — for significantly faster builds compared to esbuild/Rollup.
+Using [Rolldown-Vite](https://vite.dev/guide/rolldown) — Vite's experimental Rust-based bundler —
+for significantly faster builds compared to esbuild/Rollup.
 
 ## 🤝 Contributing
 
@@ -153,7 +158,8 @@ This project is open source and available under the [MIT License](LICENSE).
 
 **Luis Fernando Alvarez Manriquez**
 
-Full-Stack Software Engineer specialized in modern web technologies with a strong focus on performance optimization and clean code architecture.
+Full-Stack Software Engineer specialized in modern web technologies with a strong focus on
+performance optimization and clean code architecture.
 
 [![GitHub](https://img.shields.io/badge/GitHub-mrluisfer-181717?logo=github&logoColor=white)](https://github.com/mrluisfer)
 [![Email](https://img.shields.io/badge/Email-mrluisfeer%40gmail.com-EA4335?logo=gmail&logoColor=white)](mailto:mrluisfeer@gmail.com)

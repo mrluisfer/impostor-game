@@ -40,16 +40,16 @@ export function PlayerReveal({
   const progress = ((currentIndex + 1) / totalPlayers) * 100;
 
   return (
-    <div className="w-full max-w-md mx-auto flex flex-col gap-4 px-4">
+    <div className="mx-auto flex w-full max-w-md flex-col gap-4 px-4">
       {/* Botón atrás - siempre visible para navegación */}
       <button
         type="button"
-        className="btn btn-ghost btn-sm self-start gap-1 -mb-2"
+        className="btn btn-ghost btn-sm -mb-2 gap-1 self-start"
         onClick={handlePrevious}
         disabled={isFirst}
         aria-label="Volver al jugador anterior"
       >
-        <ChevronLeft className="w-4 h-4" />
+        <ChevronLeft className="h-4 w-4" />
         Anterior
       </button>
 
@@ -57,60 +57,64 @@ export function PlayerReveal({
         <p className="text-base-content/70 mb-2 text-lg">
           Jugador {currentIndex + 1} de {totalPlayers}
         </p>
-        <progress className="progress progress-primary w-full h-3" value={progress} max="100"></progress>
+        <progress
+          className="progress progress-primary h-3 w-full"
+          value={progress}
+          max="100"
+        ></progress>
       </div>
 
       <div className="card bg-base-200">
-        <div className="card-body items-center text-center p-5">
+        <div className="card-body items-center p-5 text-center">
           <div className="avatar placeholder mb-2">
-            <div className="bg-primary text-primary-content w-16 h-16 rounded-full flex items-center justify-center">
-              <User className="w-8 h-8" />
+            <div className="bg-primary text-primary-content flex h-16 w-16 items-center justify-center rounded-full">
+              <User className="h-8 w-8" />
             </div>
           </div>
-          <h2 className="card-title text-2xl mb-3">{player.name}</h2>
+          <h2 className="card-title mb-3 text-2xl">{player.name}</h2>
 
           {!isRevealed ? (
-            <div className="space-y-4 w-full">
+            <div className="w-full space-y-4">
               <p className="text-base-content/70">
                 Pasa el dispositivo a <strong className="text-primary">{player.name}</strong>
               </p>
               <button
                 type="button"
-                className="btn btn-primary btn-lg w-full min-h-14 text-lg"
+                className="btn btn-primary btn-lg min-h-14 w-full text-lg"
                 onClick={handleReveal}
               >
                 <span className="inline-flex items-center gap-2">
-                  <Eye className="w-5 h-5 shrink-0" />
+                  <Eye className="h-5 w-5 shrink-0" />
                   Ver mi palabra
                 </span>
               </button>
             </div>
           ) : (
-            <div className="space-y-4 w-full">
+            <div className="w-full space-y-4">
               <p className="text-base-content/70 text-sm">
                 {player.isImpostor ? 'Tu pista es:' : 'Tu palabra es:'}
               </p>
-              <div className="p-4 rounded-lg text-2xl font-bold bg-base-300 text-base-content">
+              <div className="bg-base-300 text-base-content rounded-lg p-4 text-2xl font-bold">
                 {player.assignedWord}
               </div>
               <p className="text-base-content/60 text-sm">
-                {player.isImpostor 
-                  ? '🤫 Eres impostor — adivina la palabra' 
+                {player.isImpostor
+                  ? '🤫 Eres impostor — adivina la palabra'
                   : '✓ Eres civil — no reveles tu palabra'}
               </p>
               <button
                 type="button"
-                className="btn btn-success btn-lg w-full min-h-14 text-lg"
+                className="btn btn-success btn-lg min-h-14 w-full text-lg"
                 onClick={handleNext}
               >
                 {isLast ? (
                   <span className="inline-flex items-center gap-2">
-                    <Play className="w-5 h-5 shrink-0" />
+                    <Play className="h-5 w-5 shrink-0" />
                     ¡Comenzar juego!
                   </span>
                 ) : (
                   <span className="inline-flex items-center gap-2">
-                    <ArrowRight className="w-5 h-5 shrink-0" />
+                    <ArrowRight className="h-5 w-5 shrink-0" />
                     Siguiente jugador
                   </span>
                 )}
@@ -121,11 +125,7 @@ export function PlayerReveal({
       </div>
 
       <div className="text-center">
-        <button
-          type="button"
-          className="btn btn-ghost btn-sm"
-          onClick={onSkip}
-        >
+        <button type="button" className="btn btn-ghost btn-sm" onClick={onSkip}>
           Omitir y mostrar tablero
         </button>
       </div>

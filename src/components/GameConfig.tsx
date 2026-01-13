@@ -21,17 +21,17 @@ export function GameConfig({
 
   return (
     <div className="card bg-base-200">
-      <div className="card-body p-4 gap-4">
-        <div className="flex justify-around items-center py-4 bg-base-300 rounded-lg">
+      <div className="card-body gap-4 p-4">
+        <div className="bg-base-300 flex items-center justify-around rounded-lg py-4">
           <div className="text-center">
-            <div className="text-base-content/70 text-sm mb-1">Jugadores</div>
-            <div className="text-4xl font-bold text-primary">{playerCount}</div>
+            <div className="text-base-content/70 mb-1 text-sm">Jugadores</div>
+            <div className="text-primary text-4xl font-bold">{playerCount}</div>
           </div>
-          
+
           <div className="divider divider-horizontal mx-2"></div>
-          
+
           <div className="text-center">
-            <div className="text-base-content/70 text-sm mb-1">Impostores</div>
+            <div className="text-base-content/70 mb-1 text-sm">Impostores</div>
             <div className="flex items-center gap-3">
               <button
                 type="button"
@@ -40,9 +40,9 @@ export function GameConfig({
                 disabled={impostorCount <= 1}
                 aria-label="Disminuir impostores"
               >
-                <Minus className="w-4 h-4" />
+                <Minus className="h-4 w-4" />
               </button>
-              <span className="text-4xl font-bold text-error w-5">{impostorCount}</span>
+              <span className="text-error w-5 text-4xl font-bold">{impostorCount}</span>
               <button
                 type="button"
                 className="btn btn-circle btn-neutral btn-square"
@@ -50,7 +50,7 @@ export function GameConfig({
                 disabled={impostorCount >= maxImpostors}
                 aria-label="Aumentar impostores"
               >
-                <Plus className="w-4 h-4" />
+                <Plus className="h-4 w-4" />
               </button>
             </div>
           </div>
@@ -58,20 +58,20 @@ export function GameConfig({
 
         {needMorePlayers && (
           <div className="alert alert-warning">
-            <AlertTriangle className="w-5 h-5 shrink-0" />
+            <AlertTriangle className="h-5 w-5 shrink-0" />
             <span>Necesitas al menos {minPlayers} jugadores</span>
           </div>
         )}
 
         <button
           type="button"
-          className="btn btn-primary btn-lg w-full min-h-14 text-lg"
+          className="btn btn-primary btn-lg min-h-14 w-full text-lg"
           onClick={onStartGame}
           disabled={!canStart}
           aria-label="Iniciar el juego"
         >
           <span className="inline-flex items-center gap-2">
-            <Play className="w-5 h-5 shrink-0" />
+            <Play className="h-5 w-5 shrink-0" />
             ¡Iniciar Juego!
           </span>
         </button>

@@ -4,7 +4,7 @@ import { categories } from '../data/categories';
 
 const generateId = () => Math.random().toString(36).substring(2, 9);
 
-const shuffleArray = <T,>(array: T[]): T[] => {
+const shuffleArray = <T>(array: T[]): T[] => {
   const shuffled = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -89,11 +89,11 @@ export function useGame() {
 
   const selectCategory = useCallback((category: Category) => {
     setState((prev) => {
-      const isSelected = prev.selectedCategories.some(c => c.id === category.id);
+      const isSelected = prev.selectedCategories.some((c) => c.id === category.id);
       const newCategories = isSelected
-        ? prev.selectedCategories.filter(c => c.id !== category.id)
+        ? prev.selectedCategories.filter((c) => c.id !== category.id)
         : [...prev.selectedCategories, category];
-      
+
       return {
         ...prev,
         selectedCategories: newCategories,
@@ -107,7 +107,7 @@ export function useGame() {
       // Si no, seleccionar todas
       const threshold = categories.length / 2;
       const shouldSelectAll = prev.selectedCategories.length <= threshold;
-      
+
       return {
         ...prev,
         selectedCategories: shouldSelectAll ? [...categories] : [],
@@ -129,7 +129,8 @@ export function useGame() {
       }
 
       // Seleccionar una categoría aleatoria de las seleccionadas
-      const category = prev.selectedCategories[Math.floor(Math.random() * prev.selectedCategories.length)];
+      const category =
+        prev.selectedCategories[Math.floor(Math.random() * prev.selectedCategories.length)];
       const word = category.words[Math.floor(Math.random() * category.words.length)];
       const clue = category.clues[Math.floor(Math.random() * category.clues.length)];
 

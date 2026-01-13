@@ -1,11 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import "tailwindcss";
-@plugin "daisyui" {
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import 'tailwindcss';
+@plugin 'daisyui' {
   themes: dark;
 }
 
 @theme {
-  --font-poppins: "Poppins", sans-serif;
+  --font-poppins: 'Poppins', sans-serif;
   --color-impostor: #f87171;
   --color-innocent: #4ade80;
 }
@@ -61,8 +61,8 @@ body {
   min-height: 100dvh;
   overflow-x: hidden;
   /* Safe area insets para iPhone notch/Dynamic Island */
-  padding: env(safe-area-inset-top) env(safe-area-inset-right)
-    env(safe-area-inset-bottom) env(safe-area-inset-left);
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom)
+    env(safe-area-inset-left);
 }
 
 #root {
@@ -81,7 +81,7 @@ textarea {
 /* Remove tap highlight on all interactive elements */
 a,
 button,
-[role="button"],
+[role='button'],
 .btn {
   -webkit-tap-highlight-color: transparent;
 }
@@ -150,11 +150,11 @@ button,
   background: oklch(60% 0.02 277.508);
 }
 
-@plugin "daisyui/theme" {
-  name: "impostor";
+@plugin 'daisyui/theme' {
+  name: 'impostor';
   default: true;
   prefersdark: true;
-  color-scheme: "dark";
+  color-scheme: 'dark';
   --color-base-100: oklch(28.822% 0.022 277.508);
   --color-base-200: oklch(26.805% 0.02 277.508);
   --color-base-300: oklch(24.787% 0.019 277.508);

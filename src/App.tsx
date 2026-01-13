@@ -37,7 +37,7 @@ function App() {
   return (
     <>
       {isRevealing && players.length > 0 ? (
-        <div className="min-h-dvh flex items-center justify-center p-4 bg-base-100">
+        <div className="bg-base-100 flex min-h-dvh items-center justify-center p-4">
           <PlayerReveal
             player={players[currentRevealIndex]}
             currentIndex={currentRevealIndex}
@@ -48,7 +48,7 @@ function App() {
           />
         </div>
       ) : (
-        <main className="min-h-dvh w-full max-w-6xl mx-auto p-4 sm:p-6 pb-8">
+        <main className="mx-auto min-h-dvh w-full max-w-6xl p-4 pb-8 sm:p-6">
           {isSetup && (
             <div className="grid gap-6 lg:grid-cols-[1fr_1.2fr] lg:gap-8">
               <section className="flex flex-col gap-4">

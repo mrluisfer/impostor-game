@@ -30,58 +30,65 @@ export function CategorySelector({
         </p>
         <button
           type="button"
-          className={`btn min-h-12 px-4 gap-2 ${
-            shouldSelectAll 
-              ? 'btn-primary' 
-              : 'btn-ghost bg-base-200'
+          className={`btn min-h-12 gap-2 px-4 ${
+            shouldSelectAll ? 'btn-primary' : 'btn-ghost bg-base-200'
           }`}
           onClick={onToggleAll}
           disabled={disabled}
-          aria-label={shouldSelectAll ? 'Seleccionar todas las categorías' : 'Deseleccionar todas las categorías'}
+          aria-label={
+            shouldSelectAll
+              ? 'Seleccionar todas las categorías'
+              : 'Deseleccionar todas las categorías'
+          }
         >
           {shouldSelectAll ? (
             <>
-              <CheckCheck className="w-5 h-5" />
+              <CheckCheck className="h-5 w-5" />
               Seleccionar todas
             </>
           ) : (
             <>
-              <X className="w-5 h-5" />
+              <X className="h-5 w-5" />
               Deseleccionar
             </>
           )}
         </button>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3" role="group" aria-label="Categorías disponibles">
-      {categories.map((category) => {
-        const isSelected = selectedCategories.some(c => c.id === category.id);
-        return (
-          <button
-            key={category.id}
-            type="button"
-            className={`btn h-auto min-h-20 py-4 flex-col gap-2 relative ${
-              isSelected 
-                ? 'btn-primary' 
-                : 'btn-ghost bg-base-200'
-            }`}
-            onClick={() => onSelectCategory(category)}
-            disabled={disabled}
-            aria-pressed={isSelected}
-            aria-label={`Categoría: ${category.name}`}
-          >
-            <span className="text-3xl" aria-hidden="true">
-              {category.emoji}
-            </span>
-            <span className="text-sm font-medium">{category.name}</span>
-            {isSelected && (
-              <span className="absolute top-2 right-2 badge badge-sm badge-secondary" aria-hidden="true">
-                ✓
+      <div
+        className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4"
+        role="group"
+        aria-label="Categorías disponibles"
+      >
+        {categories.map((category) => {
+          const isSelected = selectedCategories.some((c) => c.id === category.id);
+          return (
+            <button
+              key={category.id}
+              type="button"
+              className={`btn relative h-auto min-h-20 flex-col gap-2 py-4 ${
+                isSelected ? 'btn-primary' : 'btn-ghost bg-base-200'
+              }`}
+              onClick={() => onSelectCategory(category)}
+              disabled={disabled}
+              aria-pressed={isSelected}
+              aria-label={`Categoría: ${category.name}`}
+            >
+              <span className="text-3xl" aria-hidden="true">
+                {category.emoji}
               </span>
-            )}
-          </button>
-        );
-      })}
+              <span className="text-sm font-medium">{category.name}</span>
+              {isSelected && (
+                <span
+                  className="badge badge-sm badge-secondary absolute top-2 right-2"
+                  aria-hidden="true"
+                >
+                  ✓
+                </span>
+              )}
+            </button>
+          );
+        })}
       </div>
     </div>
   );
