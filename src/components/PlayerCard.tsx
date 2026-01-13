@@ -1,0 +1,120 @@
+import { useState, useCallback } from 'react';
+import { User, UserX, Eye, EyeOff, Skull } from 'lucide-react';
+import type { Player } from '../types/game';
+
+interface PlayerCardProps {
+  player: Player;
+  showRole?: boolean;
+}
+
+export function PlayerCard({ player, showRole = false }: PlayerCardProps) {
+  const [isRevealed, setIsRevealed] = useState(false);
+  const [isEliminated, setIsEliminated] = useState(false);
+
+  const toggleReveal = useCallback(() => {
+    if (!showRole) {
+      setIsRevealed(prev => !prev);
+    }
+  }, [showRole]);
+
+  const toggleEliminate = useCallback(() => {
+    if (player.isImpostor) {
+      setIsEliminated(prev => !prev);
+    }
+  }, [player.isImpostor]);
+
+  const isClickable = !showRole;
+  const showWord = isRevealed || showRole;
+  
+  // Determinar si mostrar como impostor revelado (global o individual)
+  const isImpostorRevealed = showRole && player.isImpostor;
+  const isIndividuallyEliminated = !showRole && isEliminated && player.isImpostor;
+
+  return (
+    <div
+      className={`card transition-all duration-300 ${
+        isImpostorRevealed || isIndividuallyEliminated
+          ? 'bg-error text-error-content' 
+          : 'bg-base-200'
+      } ${isIndividuallyEliminated ? 'opacity-75 scale-[0.98]' : ''} ${isClickable ? 'cursor-pointer active:scale-[0.98] transition-transform' : ''}`}
+      onClick={toggleReveal}
+      onKeyDown={(e) => {
+        if (isClickable && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault();
+          toggleReveal();
+        }
+      }}
+      role={isClickable ? 'button' : undefined}
+      tabIndex={isClickable ? 0 : undefined}
+      aria-pressed={isClickable ? isRevealed : undefined}
+      aria-label={isClickable ? `${isRevealed ? 'Ocultar' : 'Ver'} palabra de ${player.name}` : undefined}
+    >
+      <div className="card-body p-4">
+        <div className="flex items-center gap-3">
+          <div className="avatar placeholder">
+            <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+              isImpostorRevealed || isIndividuallyEliminated ? 'bg-error-content text-error' : 'bg-base-300'
+            }`}>
+              {isImpostorRevealed || isIndividuallyEliminated ? <UserX className="w-6 h-6" /> : <User className="w-6 h-6" />}
+            </div>
+          </div>
+          <h3 className={`card-title text-lg flex-1 ${isIndividuallyEliminated ? 'line-through opacity-80' : ''}`}>
+            {player.name}
+          </h3>
+          {(isImpostorRevealed || isIndividuallyEliminated) && (
+            <span className="badge badge-lg font-bold gap-1">
+              {isIndividuallyEliminated && <Skull className="w-4 h-4" />}
+              IMPOSTOR
+            </span>
+          )}
+        </div>
+
+        <div className="mt-4">
+          {!showWord ? (
+            <div className="flex items-center justify-center gap-2 min-h-14 rounded-lg bg-base-300/50 text-base-content/70">
+              <Eye className="w-5 h-5" />
+              <span>Toca para ver</span>
+            </div>
+          ) : (
+            <div className="text-center space-y-2">
+              <p className={`text-sm ${isIndividuallyEliminated ? 'text-error-content/70' : 'text-base-content/70'}`}>
+                {player.isImpostor ? 'Pista:' : 'Palabra:'}
+              </p>
+              <p className={`text-2xl font-bold ${
+                isIndividuallyEliminated 
+                  ? 'text-error-content line-through' 
+                  : player.isImpostor 
+                    ? 'text-warning' 
+                    : 'text-success'
+              }`}>
+                {player.assignedWord}
+              </p>
+              {!showRole && (
+                <div className="flex flex-col gap-2 pt-1">
+                  <div className="flex items-center justify-center gap-1 text-sm text-base-content/50">
+                    <EyeOff className="w-4 h-4" />
+                    <span>Toca para ocultar</span>
+                  </div>
+                  {player.isImpostor && (
+                    <button
+                      type="button"
+                      className={`btn btn-sm ${isEliminated ? 'btn-ghost' : 'btn-error'} gap-1`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleEliminate();
+                      }}
+                      aria-label={isEliminated ? 'Desmarcar como eliminado' : 'Marcar como eliminado'}
+                    >
+                      <Skull className="w-4 h-4" />
+                      {isEliminated ? 'Restaurar' : 'Eliminar'}
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
