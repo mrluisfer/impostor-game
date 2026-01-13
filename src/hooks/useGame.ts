@@ -131,8 +131,11 @@ export function useGame() {
       // Seleccionar una categoría aleatoria de las seleccionadas
       const category =
         prev.selectedCategories[Math.floor(Math.random() * prev.selectedCategories.length)];
-      const word = category.words[Math.floor(Math.random() * category.words.length)];
-      const clue = category.clues[Math.floor(Math.random() * category.clues.length)];
+      
+      // Seleccionar una palabra aleatoria con sus pistas
+      const wordWithClues = category.words[Math.floor(Math.random() * category.words.length)];
+      const word = wordWithClues.word;
+      const clue = wordWithClues.clues[Math.floor(Math.random() * wordWithClues.clues.length)];
 
       // Shuffle players and assign impostors
       const shuffledPlayers = shuffleArray(prev.players);

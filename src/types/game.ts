@@ -5,12 +5,16 @@ export interface Player {
   assignedWord: string; // Palabra para inocentes, pista para impostores
 }
 
+export interface WordWithClues {
+  word: string;
+  clues: string[];
+}
+
 export interface Category {
   id: string;
   name: string;
   emoji: string;
-  words: string[];
-  clues: string[];
+  words: WordWithClues[];
 }
 
 export type GamePhase = 'setup' | 'playing' | 'revealing' | 'finished';
