@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 💬 Discusiones
+    url: https://github.com/owner/impostor-web/discussions
+    about: Usa las discusiones para preguntas generales, ideas o conversaciones
+  - name: 📖 Documentación
+    url: https://github.com/owner/impostor-web#readme
+    about: Lee la documentación antes de abrir un issue
