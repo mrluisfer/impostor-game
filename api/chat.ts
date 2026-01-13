@@ -63,7 +63,7 @@ Reglas:
 
     // Solicitud genérica (comportamiento original)
     const response = await openai.responses.create({
-      model: 'gpt-4.1',
+      model: 'gpt-5.2',
       input: message,
     });
 
