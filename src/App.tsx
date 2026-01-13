@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useGame } from './hooks/useGame';
 import { PlayerForm } from './components/PlayerForm';
 import { PlayerList } from './components/PlayerList';
@@ -33,6 +34,11 @@ function App() {
   const isRevealing = phase === 'revealing';
   const isPlaying = phase === 'playing';
   const isFinished = phase === 'finished';
+
+  // Scroll al inicio cuando cambia la fase del juego
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [phase]);
 
   return (
     <>
