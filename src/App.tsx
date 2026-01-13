@@ -68,6 +68,7 @@ function App() {
                 <GameConfig
                   playerCount={players.length}
                   impostorCount={impostorCount}
+                  selectedCategoriesCount={selectedCategories.length}
                   canStart={canStartGame}
                   onStartGame={startGame}
                   onImpostorCountChange={setImpostorCount}
