@@ -92,7 +92,7 @@ export function PlayerList({ players, onRemovePlayer, disabled = false }: Player
           <ul
             ref={listRef}
             onScroll={handleScroll}
-            className="max-h-80 space-y-2 overflow-y-auto overscroll-contain scroll-smooth"
+            className="max-h-80 space-y-2 overflow-y-auto overscroll-contain scroll-smooth sm:max-h-150"
           >
             {displayPlayers.map((player) => {
               const originalIndex = players.findIndex((p) => p.id === player.id);
