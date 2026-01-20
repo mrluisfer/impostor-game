@@ -146,7 +146,7 @@ export default function CategoryInput({ onWordGenerated }: CategoryInputProps) {
       </div>
       <div className="relative">
         <textarea
-          className={`textarea focus-within:textarea-accent bg-base-300 text-base-content/80 placeholder:text-base-content/50 w-full resize-none pr-20 transition-all ${!isOnline ? 'cursor-not-allowed opacity-60' : ''}`}
+          className={`textarea focus-within:textarea-accent bg-base-300 text-base-content/80 placeholder:text-base-content/50 min-h-24 w-full resize-none pr-20 transition-all ${!isOnline ? 'cursor-not-allowed opacity-60' : ''}`}
           placeholder={
             isOnline
               ? 'Escribe una categoría (ej: comidas mexicanas, películas de terror, deportes extremos...)'
