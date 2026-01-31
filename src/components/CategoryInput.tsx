@@ -27,7 +27,7 @@ export default function CategoryInput({ onWordGenerated }: CategoryInputProps) {
 
     function handleOffline() {
       setIsOnline(false);
-      setError('Sin conexión a internet');
+      setError('No hay conexión a internet. Verifica tu red.');
     }
 
     window.addEventListener('online', handleOnline);
@@ -44,7 +44,7 @@ export default function CategoryInput({ onWordGenerated }: CategoryInputProps) {
 
     // Verificar conexión antes de intentar
     if (!navigator.onLine) {
-      setError('Sin conexión a internet');
+      setError('No hay conexión a internet. Verifica tu red.');
       return;
     }
 
@@ -64,7 +64,7 @@ export default function CategoryInput({ onWordGenerated }: CategoryInputProps) {
       });
 
       if (!res.ok) {
-        throw new Error('Error al generar la palabra');
+        throw new Error('No pudimos generar la palabra. Intenta de nuevo.');
       }
 
       const data = await res.json();
@@ -78,13 +78,13 @@ export default function CategoryInput({ onWordGenerated }: CategoryInputProps) {
         setIsGenerated(true);
         onWordGenerated?.(wordData);
       } else {
-        throw new Error('Respuesta inválida del servidor');
+        throw new Error('La respuesta no es válida. Intenta nuevamente.');
       }
     } catch (err) {
       if (!navigator.onLine) {
-        setError('Sin conexión a internet');
+        setError('No hay conexión a internet. Verifica tu red.');
       } else {
-        setError(err instanceof Error ? err.message : 'Error desconocido');
+        setError(err instanceof Error ? err.message : 'Algo salió mal. Intenta de nuevo.');
       }
     } finally {
       setIsLoading(false);
@@ -108,7 +108,7 @@ export default function CategoryInput({ onWordGenerated }: CategoryInputProps) {
   return (
     <div className="space-y-3">
       <div className="flex items-center gap-2">
-        <span className="text-base-content/70 text-sm font-medium">O genera con IA:</span>
+        <span className="text-base-content/70 text-sm font-medium">Genera una palabra con IA</span>
         {!isOnline && (
           <span className="badge badge-warning badge-sm gap-1">
             <svg
@@ -140,7 +140,7 @@ export default function CategoryInput({ onWordGenerated }: CategoryInputProps) {
                 clipRule="evenodd"
               />
             </svg>
-            Palabra lista
+            ¡Listo para jugar!
           </span>
         )}
       </div>
@@ -149,8 +149,8 @@ export default function CategoryInput({ onWordGenerated }: CategoryInputProps) {
           className={`textarea focus-within:textarea-accent bg-base-300 text-base-content/80 placeholder:text-base-content/50 min-h-24 w-full resize-none pr-20 transition-all ${!isOnline ? 'cursor-not-allowed opacity-60' : ''}`}
           placeholder={
             isOnline
-              ? 'Escribe una categoría (ej: comidas mexicanas, películas de terror, deportes extremos...)'
-              : 'Sin conexión a internet...'
+              ? 'Ej: comidas mexicanas, películas de terror, marcas de autos...'
+              : 'Esperando conexión a internet...'
           }
           value={categoryInput}
           onChange={(e) => {
@@ -164,6 +164,7 @@ export default function CategoryInput({ onWordGenerated }: CategoryInputProps) {
           onKeyDown={handleKeyDown}
           disabled={isLoading}
           rows={2}
+          aria-label="Escribe una categoría para generar palabras"
         />
         <div className="absolute right-2 bottom-2 flex gap-1">
           {(categoryInput || isGenerated) && (
@@ -171,7 +172,8 @@ export default function CategoryInput({ onWordGenerated }: CategoryInputProps) {
               type="button"
               onClick={handleClear}
               className="btn btn-circle btn-ghost btn-sm"
-              title="Limpiar"
+              title="Borrar todo"
+              aria-label="Borrar categoría"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -188,7 +190,8 @@ export default function CategoryInput({ onWordGenerated }: CategoryInputProps) {
             onClick={handleGenerateWord}
             disabled={isLoading || !categoryInput.trim() || !isOnline}
             className="btn btn-circle btn-sm btn-accent disabled:opacity-50"
-            title={isOnline ? 'Generar palabra' : 'Sin conexión'}
+            title={isOnline ? 'Generar palabra' : 'Sin conexión a internet'}
+            aria-label={isLoading ? 'Generando palabra...' : 'Generar palabra'}
           >
             {isLoading ? (
               <span className="loading loading-spinner loading-xs" />

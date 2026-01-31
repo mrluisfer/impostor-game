@@ -34,7 +34,7 @@ export function CategorySelector({
   }, [categories, searchQuery]);
 
   return (
-    <div className="card bg-base-200">
+    <div className="card bg-base-200 md:min-h-fit">
       <div className="card-body gap-3 p-4">
         {/* Header con contador y acciones */}
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -130,14 +130,6 @@ export function CategorySelector({
               })}
             </div>
           </div>
-
-          {/* Indicador de scroll */}
-          {filteredCategories.length > 8 && (
-            <div
-              className="from-base-200 pointer-events-none absolute right-2 bottom-0 left-0 h-6 bg-linear-to-t to-transparent"
-              aria-hidden="true"
-            />
-          )}
         </div>
 
         {/* Mensaje cuando no hay resultados */}
