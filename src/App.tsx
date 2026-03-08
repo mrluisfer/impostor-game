@@ -129,15 +129,24 @@ function App() {
                   Deducción rápida, pistas creativas y caos divertido entre amigos.
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2">
-                  <Badge variant="secondary" className="bg-base-200 px-2.5 text-xs">
+                  <Badge
+                    variant="secondary"
+                    className="bg-base-200 text-base-content border-border/70 px-2.5 text-xs"
+                  >
                     <span className="truncate">{phaseLabel}</span>
                   </Badge>
-                  <Badge variant="outline" className="bg-base-200/70 max-w-44 px-2.5 text-xs">
+                  <Badge
+                    variant="outline"
+                    className="bg-base-200/70 text-base-content/90 border-border/70 max-w-44 px-2.5 text-xs"
+                  >
                     <span className="truncate">
                       {players.length} jugador{players.length === 1 ? '' : 'es'}
                     </span>
                   </Badge>
-                  <Badge variant="outline" className="bg-base-200/70 max-w-44 px-2.5 text-xs">
+                  <Badge
+                    variant="outline"
+                    className="bg-base-200/70 text-base-content/90 border-border/70 max-w-44 px-2.5 text-xs"
+                  >
                     <span className="truncate">
                       {selectedCategories.length} categoría
                       {selectedCategories.length === 1 ? '' : 's'}
