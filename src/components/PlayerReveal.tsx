@@ -1,5 +1,9 @@
 import { useState } from 'react';
 import { User, Eye, Play, ArrowRight, ChevronLeft } from 'lucide-react';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardTitle } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
 import type { Player } from '../types/game';
 
 interface PlayerRevealProps {
@@ -42,59 +46,60 @@ export function PlayerReveal({
   return (
     <div className="mx-auto flex w-full max-w-md flex-col gap-4 px-4">
       {/* Botón atrás - siempre visible para navegación */}
-      <button
+      <Button
         type="button"
-        className="btn btn-ghost btn-sm -mb-2 gap-1 self-start"
+        variant="ghost"
+        size="sm"
+        className="-mb-2 gap-1 self-start"
         onClick={handlePrevious}
         disabled={isFirst}
         aria-label="Volver al jugador anterior"
       >
         <ChevronLeft className="h-4 w-4" />
         Anterior
-      </button>
+      </Button>
 
       <div className="text-center">
         <p className="text-base-content/70 mb-2 text-lg">
           Jugador {currentIndex + 1} de {totalPlayers}
         </p>
-        <progress
-          className="progress progress-primary h-3 w-full"
-          value={progress}
-          max="100"
-        ></progress>
+        <Progress value={progress} className="gap-0" />
       </div>
 
-      <div className="card animate-scale-in bg-base-200">
-        <div className="card-body items-center p-5 text-center">
-          <div className="avatar placeholder mb-2">
-            <div className="bg-primary text-primary-content flex h-16 w-16 items-center justify-center rounded-full">
+      <Card className="animate-scale-in bg-base-200 ring-border/70">
+        <CardContent className="items-center p-5 text-center">
+          <Avatar className="bg-primary/20 mb-2 h-16 w-16">
+            <AvatarFallback className="bg-primary text-primary-foreground">
               <User className="h-8 w-8" />
-            </div>
-          </div>
-          <h2 className="card-title mb-3 text-2xl">{player.name}</h2>
+            </AvatarFallback>
+          </Avatar>
+          <CardTitle className="mb-3 max-w-full truncate text-2xl" title={player.name}>
+            {player.name}
+          </CardTitle>
 
           {!isRevealed ? (
             <div className="w-full space-y-4">
               <p className="text-base-content/70">
                 Pasa el dispositivo a <strong className="text-primary">{player.name}</strong>
               </p>
-              <button
+              <Button
                 type="button"
-                className="btn btn-primary btn-lg animate-glow min-h-14 w-full text-lg"
+                size="lg"
+                className="animate-glow min-h-14 w-full text-lg"
                 onClick={handleReveal}
               >
                 <span className="inline-flex items-center gap-2">
                   <Eye className="h-5 w-5 shrink-0" />
                   Ver mi palabra
                 </span>
-              </button>
+              </Button>
             </div>
           ) : (
             <div className="animate-fade-in w-full space-y-4">
               <p className="text-base-content/70 text-sm">
                 {player.isImpostor ? 'Tu pista es:' : 'Tu palabra es:'}
               </p>
-              <div className="animate-reveal bg-base-300 text-base-content rounded-lg p-4 text-2xl font-bold">
+              <div className="animate-reveal bg-base-300 text-base-content rounded-lg p-4 text-2xl font-bold break-words">
                 {player.assignedWord}
               </div>
               <p className="text-base-content/60 text-sm">
@@ -102,9 +107,10 @@ export function PlayerReveal({
                   ? '🤫 Eres impostor — adivina la palabra'
                   : '✓ Eres civil — no reveles tu palabra'}
               </p>
-              <button
+              <Button
                 type="button"
-                className="btn btn-success btn-lg min-h-14 w-full text-lg"
+                size="lg"
+                className="min-h-14 w-full border-emerald-500/60 bg-emerald-500/20 text-emerald-100 hover:bg-emerald-500/30"
                 onClick={handleNext}
               >
                 {isLast ? (
@@ -118,16 +124,16 @@ export function PlayerReveal({
                     Siguiente jugador
                   </span>
                 )}
-              </button>
+              </Button>
             </div>
           )}
-        </div>
-      </div>
+        </CardContent>
+      </Card>
 
       <div className="text-center">
-        <button type="button" className="btn btn-ghost btn-sm" onClick={onSkip}>
+        <Button type="button" variant="ghost" size="sm" onClick={onSkip}>
           Omitir y mostrar tablero
-        </button>
+        </Button>
       </div>
     </div>
   );

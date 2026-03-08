@@ -1,4 +1,11 @@
 import { useState, useEffect } from 'react';
+import { AlertCircle, CheckCircle2, SendHorizontal, WifiOff, X } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Spinner } from '@/components/ui/spinner';
+import { Textarea } from '@/components/ui/textarea';
+import { cn } from '@/lib/utils';
 import type { WordWithClues } from '../types/game';
 
 export interface GeneratedWord extends WordWithClues {
@@ -107,46 +114,33 @@ export default function CategoryInput({ onWordGenerated }: CategoryInputProps) {
 
   return (
     <div className="space-y-3">
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         <span className="text-base-content/70 text-sm font-medium">Genera una palabra con IA</span>
         {!isOnline && (
-          <span className="badge badge-warning badge-sm gap-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="h-3 w-3"
-            >
-              <path
-                fillRule="evenodd"
-                d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z"
-                clipRule="evenodd"
-              />
-            </svg>
+          <Badge
+            className="gap-1 border-amber-500/50 bg-amber-500/10 text-amber-300"
+            variant="outline"
+          >
+            <WifiOff className="h-3 w-3" />
             Sin conexión
-          </span>
+          </Badge>
         )}
         {isGenerated && isOnline && (
-          <span className="badge badge-success badge-sm gap-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="h-3 w-3"
-            >
-              <path
-                fillRule="evenodd"
-                d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                clipRule="evenodd"
-              />
-            </svg>
+          <Badge
+            className="gap-1 border-emerald-500/50 bg-emerald-500/10 text-emerald-300"
+            variant="outline"
+          >
+            <CheckCircle2 className="h-3 w-3" />
             ¡Listo para jugar!
-          </span>
+          </Badge>
         )}
       </div>
       <div className="relative">
-        <textarea
-          className={`textarea focus-within:textarea-accent bg-base-300 text-base-content/80 placeholder:text-base-content/50 min-h-24 w-full resize-none pr-20 transition-all ${!isOnline ? 'cursor-not-allowed opacity-60' : ''}`}
+        <Textarea
+          className={cn(
+            'bg-base-300 text-base-content/80 placeholder:text-base-content/50 min-h-24 resize-none pr-20 md:text-base',
+            !isOnline && 'cursor-not-allowed opacity-60'
+          )}
           placeholder={
             isOnline
               ? 'Ej: comidas mexicanas, películas de terror, marcas de autos...'
@@ -154,7 +148,6 @@ export default function CategoryInput({ onWordGenerated }: CategoryInputProps) {
           }
           value={categoryInput}
           onChange={(e) => {
-            if (!isOnline) return;
             setCategoryInput(e.target.value);
             if (isGenerated) {
               setIsGenerated(false);
@@ -162,70 +155,43 @@ export default function CategoryInput({ onWordGenerated }: CategoryInputProps) {
             }
           }}
           onKeyDown={handleKeyDown}
-          disabled={isLoading}
+          disabled={isLoading || !isOnline}
           rows={2}
           aria-label="Escribe una categoría para generar palabras"
         />
         <div className="absolute right-2 bottom-2 flex gap-1">
           {(categoryInput || isGenerated) && (
-            <button
+            <Button
               type="button"
               onClick={handleClear}
-              className="btn btn-circle btn-ghost btn-sm"
+              variant="ghost"
+              size="icon-sm"
               title="Borrar todo"
               aria-label="Borrar categoría"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                className="h-4 w-4"
-              >
-                <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
-              </svg>
-            </button>
+              <X className="h-4 w-4" />
+            </Button>
           )}
-          <button
+          <Button
             type="button"
             onClick={handleGenerateWord}
             disabled={isLoading || !categoryInput.trim() || !isOnline}
-            className="btn btn-circle btn-sm btn-accent disabled:opacity-50"
+            size="icon-sm"
+            className="bg-accent text-accent-content hover:bg-accent/85"
             title={isOnline ? 'Generar palabra' : 'Sin conexión a internet'}
             aria-label={isLoading ? 'Generando palabra...' : 'Generar palabra'}
+            aria-busy={isLoading}
           >
-            {isLoading ? (
-              <span className="loading loading-spinner loading-xs" />
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="h-4 w-4"
-              >
-                <path d="M3.478 2.404a.75.75 0 0 0-.926.941l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 60.519 60.519 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.517 60.517 0 0 0 3.478 2.404Z" />
-              </svg>
-            )}
-          </button>
+            {isLoading ? <Spinner className="h-4 w-4" /> : <SendHorizontal className="h-4 w-4" />}
+          </Button>
         </div>
       </div>
 
       {error && (
-        <div className="alert alert-error text-sm">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 shrink-0 stroke-current"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          <span>{error}</span>
-        </div>
+        <Alert variant="destructive" className="bg-destructive/10">
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
       )}
     </div>
   );

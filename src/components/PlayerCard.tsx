@@ -1,5 +1,10 @@
 import { useState, useCallback } from 'react';
 import { User, UserX, Eye, EyeOff, Skull } from 'lucide-react';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardTitle } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 import type { Player } from '../types/game';
 
 interface PlayerCardProps {
@@ -23,7 +28,6 @@ export function PlayerCard({ player, showRole = false }: PlayerCardProps) {
     }
   }, [player.isImpostor]);
 
-  const isClickable = !showRole;
   const showWord = isRevealed || showRole;
 
   // Determinar si mostrar como impostor revelado (global o individual)
@@ -31,90 +35,105 @@ export function PlayerCard({ player, showRole = false }: PlayerCardProps) {
   const isIndividuallyEliminated = !showRole && isEliminated && player.isImpostor;
 
   return (
-    <div
-      className={`card transition-all duration-300 ${
+    <Card
+      className={cn(
+        'transition-all duration-300',
         isImpostorRevealed || isIndividuallyEliminated
-          ? 'bg-error text-error-content'
-          : 'bg-base-200'
-      } ${isIndividuallyEliminated ? 'scale-[0.98] opacity-75' : ''} ${isClickable ? 'cursor-pointer transition-transform active:scale-[0.98]' : ''}`}
-      onClick={toggleReveal}
-      onKeyDown={(e) => {
-        if (isClickable && (e.key === 'Enter' || e.key === ' ')) {
-          e.preventDefault();
-          toggleReveal();
-        }
-      }}
-      role={isClickable ? 'button' : undefined}
-      tabIndex={isClickable ? 0 : undefined}
-      aria-pressed={isClickable ? isRevealed : undefined}
-      aria-label={
-        isClickable ? `${isRevealed ? 'Ocultar' : 'Ver'} palabra de ${player.name}` : undefined
-      }
+          ? 'border-destructive/40 bg-destructive/15 text-destructive-foreground ring-destructive/35'
+          : 'bg-base-200 ring-border/70',
+        isIndividuallyEliminated && 'scale-[0.98] opacity-75'
+      )}
     >
-      <div className="card-body p-4">
+      <CardContent className="p-4">
         <div className="flex items-center gap-3">
-          <div className="avatar placeholder">
-            <div
-              className={`flex h-12 w-12 items-center justify-center rounded-full ${
+          <Avatar className="bg-base-300 h-12 w-12">
+            <AvatarFallback
+              className={cn(
                 isImpostorRevealed || isIndividuallyEliminated
-                  ? 'bg-error-content text-error'
+                  ? 'bg-destructive/25 text-destructive'
                   : 'bg-base-300'
-              }`}
+              )}
             >
               {isImpostorRevealed || isIndividuallyEliminated ? (
                 <UserX className="h-6 w-6" />
               ) : (
                 <User className="h-6 w-6" />
               )}
-            </div>
-          </div>
-          <h3
-            className={`card-title flex-1 text-lg ${isIndividuallyEliminated ? 'line-through opacity-80' : ''}`}
+            </AvatarFallback>
+          </Avatar>
+          <CardTitle
+            className={cn(
+              'min-w-0 flex-1 truncate text-lg',
+              isIndividuallyEliminated && 'line-through opacity-80'
+            )}
+            title={player.name}
           >
             {player.name}
-          </h3>
+          </CardTitle>
           {(isImpostorRevealed || isIndividuallyEliminated) && (
-            <span className="badge badge-lg gap-1 font-bold">
+            <Badge className="shrink-0 gap-1 font-bold" variant="destructive">
               {isIndividuallyEliminated && <Skull className="h-4 w-4" />}
               IMPOSTOR
-            </span>
+            </Badge>
           )}
         </div>
 
         <div className="mt-4">
           {!showWord ? (
-            <div className="bg-base-300/50 text-base-content/70 flex min-h-14 items-center justify-center gap-2 rounded-lg">
+            <Button
+              type="button"
+              variant="outline"
+              className="bg-base-300/50 text-base-content/75 min-h-14 w-full justify-center gap-2"
+              onClick={toggleReveal}
+              disabled={showRole}
+              aria-label={`Ver palabra de ${player.name}`}
+            >
               <Eye className="h-5 w-5" />
-              <span>Toca para ver</span>
-            </div>
+              Ver palabra
+            </Button>
           ) : (
             <div className="animate-fade-in space-y-2 text-center">
               <p
-                className={`text-sm ${isIndividuallyEliminated ? 'text-error-content/70' : 'text-base-content/70'}`}
+                className={cn(
+                  'text-sm',
+                  isIndividuallyEliminated
+                    ? 'text-destructive-foreground/70'
+                    : 'text-base-content/70'
+                )}
               >
                 {player.isImpostor ? 'Pista:' : 'Palabra:'}
               </p>
               <p
-                className={`animate-reveal text-2xl font-bold ${
+                className={cn(
+                  'animate-reveal line-clamp-2 text-2xl font-bold break-words',
                   isIndividuallyEliminated
-                    ? 'text-error-content line-through'
+                    ? 'text-destructive-foreground line-through'
                     : player.isImpostor
                       ? 'text-warning'
                       : 'text-success'
-                }`}
+                )}
               >
                 {player.assignedWord}
               </p>
               {!showRole && (
                 <div className="flex flex-col gap-2 pt-1">
-                  <div className="text-base-content/50 flex items-center justify-center gap-1 text-sm">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="mx-auto w-full gap-1 text-sm sm:w-auto"
+                    onClick={toggleReveal}
+                    aria-label={`Ocultar palabra de ${player.name}`}
+                  >
                     <EyeOff className="h-4 w-4" />
-                    <span>Toca para ocultar</span>
-                  </div>
+                    Ocultar palabra
+                  </Button>
                   {player.isImpostor && (
-                    <button
+                    <Button
                       type="button"
-                      className={`btn btn-sm ${isEliminated ? 'btn-ghost' : 'btn-error'} gap-1`}
+                      variant={isEliminated ? 'secondary' : 'destructive'}
+                      size="sm"
+                      className="mx-auto w-full gap-1 sm:w-auto"
                       onClick={(e) => {
                         e.stopPropagation();
                         toggleEliminate();
@@ -125,14 +144,14 @@ export function PlayerCard({ player, showRole = false }: PlayerCardProps) {
                     >
                       <Skull className="h-4 w-4" />
                       {isEliminated ? 'Restaurar' : 'Eliminar'}
-                    </button>
+                    </Button>
                   )}
                 </div>
               )}
             </div>
           )}
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }

@@ -1,5 +1,8 @@
-import { useState, useRef } from 'react';
+import { useRef, useState } from 'react';
 import type { FormEvent } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
 
 interface PlayerFormProps {
   onAddPlayer: (name: string) => boolean;
@@ -32,11 +35,11 @@ export function PlayerForm({ onAddPlayer, disabled = false }: PlayerFormProps) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="join w-full">
-        <input
+      <div className="flex w-full gap-2">
+        <Input
           ref={inputRef}
           type="text"
-          className={`input input-bordered input-lg join-item bg-base-200 flex-1 ${error ? 'input-error' : ''}`}
+          className={cn('bg-base-200 h-12 text-base md:text-base', error && 'border-destructive')}
           value={name}
           onChange={(e) => {
             setName(e.target.value);
@@ -47,17 +50,18 @@ export function PlayerForm({ onAddPlayer, disabled = false }: PlayerFormProps) {
           aria-invalid={error ? 'true' : 'false'}
           autoComplete="off"
         />
-        <button
+        <Button
           type="submit"
-          className="btn btn-primary join-item px-6 text-xl"
+          size="lg"
+          className="h-12 px-6 text-xl"
           disabled={disabled || !name.trim()}
           aria-label="Agregar jugador"
         >
           +
-        </button>
+        </Button>
       </div>
       {error && (
-        <p className="text-error mt-2 text-sm" role="alert">
+        <p className="text-destructive mt-2 text-sm" role="alert">
           {error}
         </p>
       )}

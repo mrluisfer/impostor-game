@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { Users, X } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardTitle } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 import type { Player } from '../types/game';
 
 interface PlayerListProps {
@@ -58,13 +62,13 @@ export function PlayerList({ players, onRemovePlayer, disabled = false }: Player
 
   if (players.length === 0) {
     return (
-      <div className="card bg-base-200">
-        <div className="card-body items-center py-10 text-center">
+      <Card className="bg-base-200 ring-border/70">
+        <CardContent className="flex flex-col items-center py-10 text-center">
           <Users className="text-base-content/50 h-12 w-12" />
           <p className="text-base-content text-lg">Aún no hay jugadores</p>
           <p className="text-base-content/70 text-sm">Agrega al menos 3 jugadores para comenzar</p>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     );
   }
 
@@ -72,19 +76,19 @@ export function PlayerList({ players, onRemovePlayer, disabled = false }: Player
   const displayPlayers = [...players].reverse();
 
   return (
-    <div className="card bg-base-200">
-      <div className="card-body p-4">
+    <Card className="bg-base-200 ring-border/70">
+      <CardContent className="p-4">
         <div className="mb-3 flex items-center justify-between">
-          <h2 className="card-title inline-flex items-center gap-2 text-lg">
+          <CardTitle className="inline-flex min-w-0 items-center gap-2 text-lg">
             <Users className="h-5 w-5 shrink-0" /> Jugadores
-          </h2>
+          </CardTitle>
           <div className="flex items-center gap-2">
             {players.length >= 3 && (
               <span className="text-success text-xs font-medium">✓ Listo</span>
             )}
-            <div className="badge badge-primary badge-lg font-bold tabular-nums">
+            <Badge className="h-6 px-2 text-sm font-bold tabular-nums" variant="default">
               {players.length}
-            </div>
+            </Badge>
           </div>
         </div>
 
@@ -101,21 +105,30 @@ export function PlayerList({ players, onRemovePlayer, disabled = false }: Player
               return (
                 <li
                   key={player.id}
-                  className={`bg-base-300 flex min-h-14 items-center gap-3 rounded-lg p-3 transition-all duration-300 ease-out ${isNew ? 'animate-slide-in' : ''} `}
+                  className={cn(
+                    'bg-base-300 flex min-h-14 items-center gap-3 rounded-lg p-3 transition-all duration-300 ease-out',
+                    isNew && 'animate-slide-in'
+                  )}
                 >
-                  <span className="badge badge-neutral badge-sm min-w-8 font-mono tabular-nums">
+                  <Badge
+                    className="bg-base-100/50 min-w-8 px-2 font-mono text-xs tabular-nums"
+                    variant="outline"
+                  >
                     {originalIndex + 1}
+                  </Badge>
+                  <span className="flex-1 truncate font-medium" title={player.name}>
+                    {player.name}
                   </span>
-                  <span className="flex-1 truncate font-medium">{player.name}</span>
                   {!disabled && (
-                    <button
+                    <Button
                       type="button"
-                      className="btn btn-error btn-square hover:bg-error/90"
+                      variant="destructive"
+                      size="icon-sm"
                       onClick={() => onRemovePlayer(player.id)}
                       aria-label={`Eliminar a ${player.name}`}
                     >
                       <X className="size-4" />
-                    </button>
+                    </Button>
                   )}
                 </li>
               );
@@ -138,7 +151,7 @@ export function PlayerList({ players, onRemovePlayer, disabled = false }: Player
             comenzar
           </p>
         )}
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }

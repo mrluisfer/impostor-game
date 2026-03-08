@@ -1,4 +1,9 @@
-import { Minus, Plus, Settings, TriangleAlert } from 'lucide-react';
+import { CircleCheck, Minus, Play, Plus, Settings, TriangleAlert } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { cn } from '@/lib/utils';
 
 interface GameConfigProps {
   playerCount: number;
@@ -34,10 +39,13 @@ export function GameConfig({
   }
 
   return (
-    <div
-      className={`card ${canStart ? 'bg-primary/10 border-primary border-2 shadow-lg' : 'bg-base-200'}`}
+    <Card
+      className={cn(
+        'bg-base-200 ring-border/70',
+        canStart && 'border-primary/50 bg-primary/10 ring-primary/20 ring-2'
+      )}
     >
-      <div className="card-body gap-4 p-4 sm:p-6">
+      <CardContent className="space-y-4 p-4 sm:p-6">
         {/* Stats Section */}
         <div className="bg-base-300 rounded-xl p-4 sm:p-6">
           <div className="flex items-center justify-around gap-3 sm:gap-6">
@@ -50,19 +58,21 @@ export function GameConfig({
             </div>
 
             {/* Separator */}
-            <div className="divider divider-horizontal mx-0 w-px"></div>
+            <Separator orientation="vertical" className="bg-border/80 h-14" />
 
             {/* Impostores Control */}
             <div className="flex items-center gap-2 sm:gap-3">
-              <button
+              <Button
                 type="button"
-                className="btn btn-circle btn-sm sm:btn-md btn-ghost hover:btn-error touch-manipulation"
+                variant="ghost"
+                size="icon-sm"
+                className="hover:bg-destructive/15 hover:text-destructive touch-manipulation sm:size-9"
                 onClick={() => onImpostorCountChange(impostorCount - 1)}
                 disabled={impostorCount <= 1}
                 aria-label="Reducir impostores"
               >
                 <Minus className="h-4 w-4 sm:h-5 sm:w-5" />
-              </button>
+              </Button>
 
               <div className="flex min-w-15 flex-col items-center gap-1.5 sm:min-w-20">
                 <div className="text-error text-3xl font-bold tabular-nums sm:text-4xl">
@@ -73,70 +83,53 @@ export function GameConfig({
                 </div>
               </div>
 
-              <button
+              <Button
                 type="button"
-                className="btn btn-circle btn-sm sm:btn-md btn-ghost hover:btn-error touch-manipulation"
+                variant="ghost"
+                size="icon-sm"
+                className="hover:bg-destructive/15 hover:text-destructive touch-manipulation sm:size-9"
                 onClick={() => onImpostorCountChange(impostorCount + 1)}
                 disabled={impostorCount >= maxImpostors}
                 aria-label="Aumentar impostores"
               >
                 <Plus className="h-4 w-4 sm:h-5 sm:w-5" />
-              </button>
+              </Button>
             </div>
           </div>
         </div>
 
         {/* Mensajes de estado */}
         {issues.length > 0 && (
-          <div className="alert alert-warning shadow-sm">
+          <Alert className="border-amber-500/40 bg-amber-500/10 text-amber-200">
             <TriangleAlert />
-            <span className="text-sm">{issues.join(' • ')}</span>
-          </div>
+            <AlertDescription className="text-sm leading-relaxed break-words" aria-live="polite">
+              {issues.join(' • ')}
+            </AlertDescription>
+          </Alert>
         )}
 
         {canStart && (
-          <div className="alert alert-success shadow-sm">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 shrink-0 stroke-current"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <span className="text-sm font-medium">¡Todo listo para empezar!</span>
-          </div>
+          <Alert className="border-emerald-500/40 bg-emerald-500/10 text-emerald-200">
+            <CircleCheck className="h-5 w-5" />
+            <AlertDescription className="text-sm font-medium" aria-live="polite">
+              ¡Todo listo para empezar!
+            </AlertDescription>
+          </Alert>
         )}
 
         {/* Botón de inicio */}
-        <button
+        <Button
           type="button"
-          className={`btn btn-lg h-14 w-full touch-manipulation text-base font-semibold sm:h-16 sm:text-lg ${
-            canStart ? 'btn-primary' : 'btn-disabled'
-          }`}
+          variant={canStart ? 'default' : 'secondary'}
+          size="lg"
+          className="h-14 w-full touch-manipulation text-sm font-semibold sm:h-16 sm:text-lg"
           onClick={onStartGame}
           disabled={!canStart}
           aria-label={canStart ? 'Iniciar el juego' : 'Completa la configuración para iniciar'}
         >
           {canStart ? (
             <>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="h-5 w-5 sm:h-6 sm:w-6"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              <Play className="h-5 w-5 sm:h-6 sm:w-6" />
               ¡Comenzar a Jugar!
             </>
           ) : (
@@ -145,8 +138,8 @@ export function GameConfig({
               Completa la configuración
             </>
           )}
-        </button>
-      </div>
-    </div>
+        </Button>
+      </CardContent>
+    </Card>
   );
 }

@@ -1,4 +1,7 @@
-import { Drama, RefreshCw, Shuffle } from 'lucide-react';
+import { CircleAlert, Drama, RefreshCw, Shuffle } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import type { Player, Category } from '../types/game';
 import { PlayerCard } from './PlayerCard';
 
@@ -32,12 +35,14 @@ export function GameBoard({
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {categories.map((category) => (
-              <span
+              <Badge
                 key={category.id}
-                className="badge badge-primary badge-lg shrink-0 gap-2 px-4 py-3"
+                className="h-8 max-w-44 shrink-0 gap-1.5 px-3 text-sm"
+                variant="default"
               >
-                <span aria-hidden="true">{category.emoji}</span> {category.name}
-              </span>
+                <span aria-hidden="true">{category.emoji}</span>
+                <span className="truncate">{category.name}</span>
+              </Badge>
             ))}
           </div>
         </div>
@@ -46,61 +51,59 @@ export function GameBoard({
       <div className="flex flex-col gap-3 pt-4 sm:flex-row sm:justify-between">
         {!showRoles ? (
           <div className="flex w-full flex-col gap-3 sm:flex-row sm:justify-between">
-            <button
+            <Button
               type="button"
-              className="btn btn-ghost bg-base-200 btn-lg min-h-14 text-lg"
+              variant="outline"
+              size="lg"
+              className="bg-base-200 h-14 justify-start text-sm sm:justify-center sm:text-lg"
               onClick={onChangeWord}
               aria-label="Cambiar palabra manteniendo roles"
             >
-              <span className="inline-flex items-center gap-2">
+              <span className="inline-flex items-center gap-2 truncate">
                 <Shuffle className="h-5 w-5 shrink-0" /> Cambiar Palabra
               </span>
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
-              className="btn btn-warning btn-lg min-h-14 text-lg"
+              variant="destructive"
+              size="lg"
+              className="h-14 justify-start border-amber-400/60 bg-amber-500/15 text-sm text-amber-200 hover:bg-amber-500/25 sm:justify-center sm:text-lg"
               onClick={onRevealImpostors}
               aria-label="Revelar quiénes son los impostores"
             >
-              <span className="inline-flex items-center gap-2">
+              <span className="inline-flex items-center gap-2 truncate">
                 <Drama className="h-5 w-5 shrink-0" /> Revelar Impostores
               </span>
-            </button>
+            </Button>
           </div>
         ) : (
-          <button
+          <Button
             type="button"
-            className="btn btn-primary btn-lg min-h-14 w-full text-lg"
+            size="lg"
+            className="h-14 w-full text-lg"
             onClick={onResetGame}
             aria-label="Jugar otra ronda"
           >
             <span className="inline-flex items-center gap-2">
               <RefreshCw className="h-5 w-5 shrink-0" /> Jugar de Nuevo
             </span>
-          </button>
+          </Button>
         )}
       </div>
 
       {/* Indicador de quién inicia */}
       {!showRoles && starterPlayer && (
-        <div className="alert alert-info">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            className="h-6 w-6 shrink-0 stroke-current"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          <span className="text-base">
-            <strong>{starterPlayer.name}</strong> inicia dando la primera pista
-          </span>
-        </div>
+        <Alert
+          className="border-sky-500/40 bg-sky-500/10 text-sky-200"
+          role="status"
+          aria-live="polite"
+        >
+          <CircleAlert className="h-5 w-5" />
+          <AlertDescription className="min-w-0 text-base leading-relaxed break-words">
+            <strong title={starterPlayer.name}>{starterPlayer.name}</strong> inicia dando la primera
+            pista
+          </AlertDescription>
+        </Alert>
       )}
 
       <div
