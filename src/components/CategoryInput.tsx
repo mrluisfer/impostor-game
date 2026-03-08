@@ -166,6 +166,7 @@ export default function CategoryInput({ onWordGenerated }: CategoryInputProps) {
               onClick={handleClear}
               variant="ghost"
               size="icon-sm"
+              className="h-10 w-10 touch-manipulation"
               title="Borrar todo"
               aria-label="Borrar categoría"
             >
@@ -177,7 +178,7 @@ export default function CategoryInput({ onWordGenerated }: CategoryInputProps) {
             onClick={handleGenerateWord}
             disabled={isLoading || !categoryInput.trim() || !isOnline}
             size="icon-sm"
-            className="bg-accent text-accent-content hover:bg-accent/85"
+            className="bg-accent text-accent-content active:bg-accent/80 h-10 w-10 touch-manipulation"
             title={isOnline ? 'Generar palabra' : 'Sin conexión a internet'}
             aria-label={isLoading ? 'Generando palabra...' : 'Generar palabra'}
             aria-busy={isLoading}

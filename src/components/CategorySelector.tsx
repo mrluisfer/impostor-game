@@ -59,7 +59,10 @@ export function CategorySelector({
             type="button"
             size="sm"
             variant={shouldSelectAll ? 'default' : 'outline'}
-            className={cn('gap-2', !shouldSelectAll && 'bg-base-300 hover:bg-base-300/80')}
+            className={cn(
+              'h-10 touch-manipulation gap-2 px-3 text-sm',
+              !shouldSelectAll && 'bg-base-300 active:bg-base-300/70'
+            )}
             onClick={onToggleAll}
             disabled={disabled}
             aria-label={
@@ -99,7 +102,7 @@ export function CategorySelector({
               type="button"
               variant="ghost"
               size="icon-xs"
-              className="absolute top-1/2 right-2 -translate-y-1/2"
+              className="absolute top-1/2 right-2 h-9 w-9 -translate-y-1/2 touch-manipulation"
               onClick={() => setSearchQuery('')}
               aria-label="Limpiar búsqueda"
             >
@@ -124,8 +127,8 @@ export function CategorySelector({
                     type="button"
                     variant={isSelected ? 'default' : 'outline'}
                     className={cn(
-                      'animate-stagger relative h-auto min-h-14 flex-col gap-1 px-2 py-2 text-left transition-transform active:scale-95',
-                      !isSelected && 'bg-base-300 hover:bg-base-300/85'
+                      'animate-stagger relative h-auto min-h-14 touch-manipulation flex-col gap-1 px-2 py-2 text-left transition-transform active:scale-95',
+                      !isSelected && 'bg-base-300 active:bg-base-300/75'
                     )}
                     style={{ '--stagger-delay': `${index * 0.03}s` } as React.CSSProperties}
                     onClick={() => onSelectCategory(category)}

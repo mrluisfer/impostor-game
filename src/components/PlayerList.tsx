@@ -124,6 +124,7 @@ export function PlayerList({ players, onRemovePlayer, disabled = false }: Player
                       type="button"
                       variant="destructive"
                       size="icon-sm"
+                      className="h-10 w-10 touch-manipulation"
                       onClick={() => onRemovePlayer(player.id)}
                       aria-label={`Eliminar a ${player.name}`}
                     >

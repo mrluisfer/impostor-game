@@ -66,7 +66,7 @@ export function GameConfig({
                 type="button"
                 variant="ghost"
                 size="icon-sm"
-                className="hover:bg-destructive/15 hover:text-destructive touch-manipulation sm:size-9"
+                className="active:bg-destructive/15 active:text-destructive h-11 w-11 touch-manipulation sm:h-10 sm:w-10"
                 onClick={() => onImpostorCountChange(impostorCount - 1)}
                 disabled={impostorCount <= 1}
                 aria-label="Reducir impostores"
@@ -87,7 +87,7 @@ export function GameConfig({
                 type="button"
                 variant="ghost"
                 size="icon-sm"
-                className="hover:bg-destructive/15 hover:text-destructive touch-manipulation sm:size-9"
+                className="active:bg-destructive/15 active:text-destructive h-11 w-11 touch-manipulation sm:h-10 sm:w-10"
                 onClick={() => onImpostorCountChange(impostorCount + 1)}
                 disabled={impostorCount >= maxImpostors}
                 aria-label="Aumentar impostores"

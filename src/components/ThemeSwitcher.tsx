@@ -46,9 +46,10 @@ export const ThemeSwitcher = memo(function ThemeSwitcher({
             variant={isActive ? 'default' : 'ghost'}
             size="sm"
             className={cn(
-              'h-8 gap-1.5 px-2.5 text-xs font-medium',
-              !compact && 'min-w-20 justify-start',
-              !isActive && 'text-muted-foreground hover:text-foreground'
+              'h-11 touch-manipulation gap-1.5 px-3 text-sm font-medium sm:h-8 sm:px-2.5 sm:text-xs',
+              compact && 'w-11 justify-center px-0 sm:w-8',
+              !compact && 'min-w-24 justify-start sm:min-w-20',
+              !isActive && 'text-muted-foreground active:text-foreground'
             )}
             role="radio"
             aria-checked={isActive}

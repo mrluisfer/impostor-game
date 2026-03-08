@@ -55,7 +55,7 @@ export function GameBoard({
               type="button"
               variant="outline"
               size="lg"
-              className="bg-base-200 h-14 justify-start text-sm sm:justify-center sm:text-lg"
+              className="bg-base-200 h-14 touch-manipulation justify-start text-sm sm:justify-center sm:text-lg"
               onClick={onChangeWord}
               aria-label="Cambiar palabra manteniendo roles"
             >
@@ -67,7 +67,7 @@ export function GameBoard({
               type="button"
               variant="destructive"
               size="lg"
-              className="h-14 justify-start border-amber-400/60 bg-amber-500/15 text-sm text-amber-200 hover:bg-amber-500/25 sm:justify-center sm:text-lg"
+              className="h-14 touch-manipulation justify-start border-amber-400/60 bg-amber-500/15 text-sm text-amber-200 active:bg-amber-500/25 sm:justify-center sm:text-lg"
               onClick={onRevealImpostors}
               aria-label="Revelar quiénes son los impostores"
             >
@@ -80,7 +80,7 @@ export function GameBoard({
           <Button
             type="button"
             size="lg"
-            className="h-14 w-full text-lg"
+            className="h-14 w-full touch-manipulation text-lg"
             onClick={onResetGame}
             aria-label="Jugar otra ronda"
           >

@@ -83,7 +83,7 @@ export function PlayerCard({ player, showRole = false }: PlayerCardProps) {
             <Button
               type="button"
               variant="outline"
-              className="bg-base-300/50 text-base-content/75 min-h-14 w-full justify-center gap-2"
+              className="bg-base-300/50 text-base-content/75 min-h-14 w-full touch-manipulation justify-center gap-2"
               onClick={toggleReveal}
               disabled={showRole}
               aria-label={`Ver palabra de ${player.name}`}
@@ -121,7 +121,7 @@ export function PlayerCard({ player, showRole = false }: PlayerCardProps) {
                     type="button"
                     variant="ghost"
                     size="sm"
-                    className="mx-auto w-full gap-1 text-sm sm:w-auto"
+                    className="mx-auto min-h-11 w-full touch-manipulation gap-1 text-sm sm:w-auto"
                     onClick={toggleReveal}
                     aria-label={`Ocultar palabra de ${player.name}`}
                   >
@@ -133,7 +133,7 @@ export function PlayerCard({ player, showRole = false }: PlayerCardProps) {
                       type="button"
                       variant={isEliminated ? 'secondary' : 'destructive'}
                       size="sm"
-                      className="mx-auto w-full gap-1 sm:w-auto"
+                      className="mx-auto min-h-11 w-full touch-manipulation gap-1 sm:w-auto"
                       onClick={(e) => {
                         e.stopPropagation();
                         toggleEliminate();

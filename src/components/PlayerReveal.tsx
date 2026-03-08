@@ -50,7 +50,7 @@ export function PlayerReveal({
         type="button"
         variant="ghost"
         size="sm"
-        className="-mb-2 gap-1 self-start"
+        className="-mb-2 h-11 touch-manipulation gap-1 self-start px-4 text-sm"
         onClick={handlePrevious}
         disabled={isFirst}
         aria-label="Volver al jugador anterior"
@@ -85,7 +85,7 @@ export function PlayerReveal({
               <Button
                 type="button"
                 size="lg"
-                className="animate-glow min-h-14 w-full text-lg"
+                className="animate-glow min-h-14 w-full touch-manipulation text-lg"
                 onClick={handleReveal}
               >
                 <span className="inline-flex items-center gap-2">
@@ -110,7 +110,7 @@ export function PlayerReveal({
               <Button
                 type="button"
                 size="lg"
-                className="min-h-14 w-full border-emerald-500/60 bg-emerald-500/20 text-emerald-100 hover:bg-emerald-500/30"
+                className="min-h-14 w-full touch-manipulation border-emerald-500/60 bg-emerald-500/20 text-emerald-100 active:bg-emerald-500/30"
                 onClick={handleNext}
               >
                 {isLast ? (
@@ -131,7 +131,13 @@ export function PlayerReveal({
       </Card>
 
       <div className="text-center">
-        <Button type="button" variant="ghost" size="sm" onClick={onSkip}>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className="h-11 touch-manipulation px-4"
+          onClick={onSkip}
+        >
           Omitir y mostrar tablero
         </Button>
       </div>

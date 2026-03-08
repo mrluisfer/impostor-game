@@ -53,7 +53,7 @@ export function PlayerForm({ onAddPlayer, disabled = false }: PlayerFormProps) {
         <Button
           type="submit"
           size="lg"
-          className="h-12 px-6 text-xl"
+          className="h-12 touch-manipulation px-6 text-xl"
           disabled={disabled || !name.trim()}
           aria-label="Agregar jugador"
         >
